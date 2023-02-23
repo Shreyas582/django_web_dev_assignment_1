@@ -11,12 +11,16 @@ def home(request):
     if request.method == 'POST':
         blog = Blog(request.POST)
         if blog.is_valid():
-            blog.save()
+            instance = blog.save(commit=False)
+            instance.created_by = request.user
+            instance.save()
             return redirect('/blogs/home/')
 
     blogs = BlogModel.objects.filter(created_by=request.user.id)
+
+    size = len(blogs)
     
-    return render(request, 'blogs.html', {'form': blog, 'blogs': blogs })
+    return render(request, 'blogs.html', {'form': blog, 'blogs': blogs, 'size': size })
 
 class BlogDeleteView(DeleteView):
     model = BlogModel 
