@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}News{% endblock %}
+
+{% block login_signup_btns %}
+    <div>
+      <a class="btn btn-primary" href="{% url 'logout' %}">Log Out</a>
+      <a class="btn btn-primary" href="{% url 'password_reset' %}">Reset Password</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h3>Top Headlines India</h3>
+    <!-- <ul>
+        {% for a in articles %}
+        {% if a.urlToImage != null %}
+            <img width="60px" height="40px" src="{{ a.urlToImage }}"/>
+        {% else %}
+            <img width="60px" height="40px" src="https://i.postimg.cc/FRJWN8Jr/flat-g221b1e6f6-640.png" />
+        {% endif %}
+        <li><a target="_blank" href="{{ a.url }}">{{ a.title }}</a></li>
+        {% endfor %}
+    </ul> -->
+
+    <table class="table">
+        <tr>
+            <th>Image</th>
+            <th>News Title</th>
+        </tr>
+        {% for a in articles %}
+        <tr>
+            <td>
+                {% if a.urlToImage != null %}
+                <a target="_blank" href="{{ a.url }}"><img width="60px" height="40px" src="{{ a.urlToImage }}"/></a>
+                {% else %}
+                <a target="_blank" href="{{ a.url }}"><img width="60px" height="40px" src="https://i.postimg.cc/FRJWN8Jr/flat-g221b1e6f6-640.png" /></a>
+                {% endif %}
+            </td>
+            <td>
+                <a style="text-decoration: none;" target="_blank" href="{{ a.url }}">{{ a.title }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
