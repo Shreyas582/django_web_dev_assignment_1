@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% load bootstrap5 %}
+
+{% block login_signup_btns %}
+    <div>
+      <a class="btn btn-primary" href="{% url 'logout' %}">Log Out</a>
+      <a class="btn btn-primary" href="{% url 'password_reset' %}">Reset Password</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+<h2>New Blog</h2>
+<form method="post">
+  {% csrf_token %}
+  <!-- {{ form.as_p }} -->
+  {% bootstrap_form form %}
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">Post</button>
+  {% endbuttons %}
+</form>
+
+<hr />
+
+<h2> My Blogs</h2>
+<table class="table">
+  {% for blog in blogs %}
+  <tr>
+    <td>{{ blog.blog_title }}</td>
+    <td>{{ blog.created_at }}</td>
+    <td>
+      <form method="POST" id="{{blog.pk}}"  action="/blogs/delete_blog/{{blog.id}}/">
+        {% csrf_token %}
+        {% buttons %}
+          <button type="submit" class="btn btn-primary">
+              Delete 
+              <i class="fa-solid fa-trash"></i>
+          </button>
+        {% endbuttons %}
+      </form>
+      
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
